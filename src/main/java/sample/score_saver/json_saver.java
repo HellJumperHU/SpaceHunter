@@ -15,7 +15,7 @@ public class json_saver {
         obj.put("Pilot name", name);
         obj.put("Score", score);
 
-        try (FileWriter file = new FileWriter("scores/")) {
+        try (FileWriter file = new FileWriter("./src/main/resources/score.json")) {
                 file.write(obj.toString());
                 file.flush();
         }

@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import static sample.score_saver.json_loader.load_json;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,20 +37,14 @@ public class Controller_Highscore {
 
     public void refresh_table() {
         List<String> name_list = new ArrayList<>();
-        List<Integer> score_list = new ArrayList<>();
+        List<Long> score_list = new ArrayList<>();
+
         load_json(name_list, score_list);
-        List<Integer> score_base = score_list;
+
 
         if (!name_list.isEmpty()) {
-            score_list.sort(Comparator.naturalOrder());
-            if (name_list.size()<2){
-                label_1st_score.setText(""+score_list.get(0));
-                label_1st_name.setText(""+name_list.get(0));
-                label_2nd_name.setText("-");
-                label_2nd_score.setText("-");
-                label_3rd_name.setText("-");
-                label_3rd_score.setText("-");
-            }
+            label_1st_name.setText(""+name_list.get(0));
+            label_1st_score.setText(""+score_list.get(0));
 
         }
 

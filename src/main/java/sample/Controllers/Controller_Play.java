@@ -108,7 +108,7 @@ public class Controller_Play {
     List<ImageView> meteors = new ArrayList<>();
     List<ImageView> boosters= new ArrayList<>();
     List<ImageView> Stars_list = new ArrayList<>();
-    private int score=0;
+    private Integer score=0;
     private int number_of_missles =5;
     private double boost_time=0.0;
     private int millisec,speed_boost_combo,missle_timer=0;
@@ -528,6 +528,7 @@ public class Controller_Play {
                submit.setDisable(true);
                //writeJsonSimpleDemo("score.json");
            }catch (Exception e){}
+
             write_json(textField_name.getText(),score);
         }
 
@@ -616,7 +617,7 @@ public class Controller_Play {
             if (!boosters.isEmpty())boosters();
             if (!missle.isEmpty())move_missle();
             do_booster_timers();
-            score_scren();
+            //score_scren();
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e){}

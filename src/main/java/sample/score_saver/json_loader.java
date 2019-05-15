@@ -1,5 +1,6 @@
 package sample.score_saver;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,15 +11,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class json_loader {
-    public static void load_json (List<String>names,List<Integer> score){
+    public static void load_json (List<String>names,List<Long> score){
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(new FileReader("src/main/resources/score.json"));
+            Object obj = parser.parse(new FileReader("./src/main/resources/score.json"));
             JSONObject jsonobject =(JSONObject)obj;
-            score.add((Integer) jsonobject.get("score"));
-            Integer ink=(Integer) jsonobject.get("score");
-            names.add((String)jsonobject.get("name"));
-            String m =(String)jsonobject.get("name");
+            score.add((Long) jsonobject.get("Score"));
+            Long ink=(Long) jsonobject.get("Score");
+            names.add((String)jsonobject.get("Pilot name"));
+            String m =(String)jsonobject.get("Pilot name");
             System.out.println(m+ink);
         }
         catch (FileNotFoundException e){e.printStackTrace();}
@@ -26,6 +27,38 @@ public class json_loader {
         catch (ParseException e){e.printStackTrace();}
     }
 
+    /*public static void show()
+    {
+        JSONParser parser = new JSONParser();
+        try
+        {
+            Object object = parser
+                    .parse(new FileReader("./src/main/resources/score.json"));
 
+            //convert Object to JSONObject
+            JSONObject jsonObject = (JSONObject)object;
+
+            //Reading the String
+            String name = (String) jsonObject.get("Pilot name");
+            //String age = (String) jsonObject.get("Score");
+
+
+            //Printing all the values
+            System.out.println("Name: " + name);
+            //System.out.println("Age: " + age);
+
+        }
+        catch(FileNotFoundException fe)
+        {
+            fe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }*/
 }
+
+
+
 
