@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"sample"},{"l":"sample.Controllers"},{"l":"sample.Models"},{"l":"sample.score_class"},{"l":"sample.score_saver"}]

@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"sample.Controllers"}]
