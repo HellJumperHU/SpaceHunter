@@ -10,7 +10,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * JSON FileReader
+ */
 public class json_loader {
+    /**
+     * Read the JSON file and required 2 LISTS as parameters
+     * @param names its a String List
+     * @param score Its a Long List
+     */
     public static void load_json (List<String>names,List<Long> score){
         JSONParser parser = new JSONParser();
         try {
@@ -27,6 +35,10 @@ public class json_loader {
         catch (ParseException e){e.printStackTrace();}
     }
 
+
+    /**
+    * EXPERIMENTAL
+    */
     /*public static void show()
     {
         JSONParser parser = new JSONParser();

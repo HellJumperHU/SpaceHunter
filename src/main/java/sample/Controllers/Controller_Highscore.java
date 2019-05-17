@@ -20,6 +20,9 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Highscore controller
+ */
 public class Controller_Highscore {
 
     @FXML
@@ -35,6 +38,9 @@ public class Controller_Highscore {
     @FXML
     Label label_3rd_score;
 
+    /**
+     * Refreshing the highscore
+     */
     public void refresh_table() {
         List<String> name_list = new ArrayList<>();
         List<Long> score_list = new ArrayList<>();
@@ -51,7 +57,11 @@ public class Controller_Highscore {
     }
 
 
-
+    /**
+     * Go back to Main Menu
+     * @param event  we get the pressed mouse button
+     * @throws IOException IOException
+     */
     public void get_highscore_main_same_window(ActionEvent event) throws IOException{
         Button btn = (Button)event.getSource();
         Stage stage = (Stage)btn.getScene().getWindow();

@@ -11,12 +11,9 @@
 
 <AnchorPane fx:id="base_anchor" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.Controller_Play">
    <children>
-      <Pane fx:id="Pane_GrandParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#get_play_mouse_cord_drag" onMouseMoved="#get_play_mouse_cord_move" prefHeight="600.0" prefWidth="800.0">
+      <Pane fx:id="Pane_GrandParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
          <children>
             <Pane fx:id="Pane_Parent" layoutX="0" layoutY="0" prefHeight="50.0" prefWidth="100.0" visible="false">
-               <children>
-                  <Button fx:id="Button_ChildOf_PaneParent_Save" layoutX="20" layoutY="450" mnemonicParsing="false" onMouseClicked="#get_play_press_save" text="SAVE" />
-               </children>
 
                <children>
                   <Button fx:id="Button_ChildOf_PaneParent_Return" layoutX="20" layoutY="500" mnemonicParsing="false" onMouseClicked="#get_play_press_return" text="RETURN" />
@@ -27,8 +24,8 @@
                </children>
 
             </Pane>
-            <Label fx:id="label_get_mouse_location" layoutX="350" layoutY="30" text="mouse_cord" />
-            <Label fx:id="label_starship_location" layoutX="356.0" layoutY="65.0" prefWidth="150" text="Coordinates" />
+            <Label fx:id="label_get_mouse_location" layoutX="350" layoutY="30" text="mouse_cord" visible="false" />
+            <Label fx:id="label_starship_location" layoutX="356.0" layoutY="65.0" prefWidth="150" text="Coordinates" visible="false" />
       
              <ImageView fx:id="star_1" fitHeight="32.0" fitWidth="25.0" layoutX="458.0" layoutY="539.0" pickOnBounds="true" preserveRatio="true">
                  <image>

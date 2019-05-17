@@ -10,9 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+
 
 import java.io.IOException;
 
+/**
+ * Main Controller
+ */
 public class Controller_Main {
 
     /**
@@ -26,8 +31,14 @@ public class Controller_Main {
      stage.show();
      }
      */
+
+    /**
+     *
+     * @param event If we click on this button we get the pressed mouse button
+     * @throws IOException Exception
+     */
     @FXML
-    public void get_main_highscore_same_window(ActionEvent event) throws IOException{
+    public void get_main_highscore_same_window(@NotNull ActionEvent event) throws IOException{
         Button btn = (Button)event.getSource();
         Stage stage = (Stage)btn.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/sample/highscore.fxml"));
@@ -37,15 +48,26 @@ public class Controller_Main {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     *
+     * @param event If we click on this button we get the pressed mouse button
+     * @throws IOException Exception
+     */
     @FXML
-    public void get_main_close(ActionEvent event) throws IOException{
+    public void get_main_close(@NotNull ActionEvent event) throws IOException{
         Button btn = (Button)event.getSource();
         Stage stage=(Stage)btn.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     *
+     * @param event If we click on this button we get the pressed mouse button
+     * @throws IOException Exception
+     */
     @FXML
-    public void get_main_play_same_window(ActionEvent event) throws IOException {
+    public void get_main_play_same_window(@NotNull ActionEvent event) throws IOException {
         Button btn = (Button)event.getSource();
         Stage stage = (Stage)btn.getScene().getWindow();
         FXMLLoader load_play_scene = new FXMLLoader(getClass().getResource("/sample/play.fxml"));

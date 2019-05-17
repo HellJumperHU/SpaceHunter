@@ -1,29 +1,54 @@
 package sample;
 
+/**
+ * EXPERIMENTAL CLASS
+ */
 public class Vector2D {
     public double x;
     public double y;
 
-
+    /**
+     * Creating a 2D Vector
+     * @param x X value
+     * @param y Y value
+     */
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Set values of a 2DVector
+     * @param x X
+     * @param y Y
+     */
     public void set(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Calculate the magnitude of a 2DVector
+     * @return a double value
+     */
     public double magnitude() {
         return (double) Math.sqrt(x * x + y * y);
     }
 
+    /**
+     * Add the parameter 2DVector to an another
+     * @param v 2DVector
+     */
     public void add(Vector2D v) {
         x += v.x;
         y += v.y;
     }
 
+    /**
+     * Add the parameter X and Y values to a 2DVector
+     * @param x X
+     * @param y Y
+     */
     public void add(double x, double y) {
         this.x += x;
         this.y += y;

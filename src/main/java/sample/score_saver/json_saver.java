@@ -8,8 +8,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
+/**
+ * JSON FileWriter
+ */
 public class json_saver {
+    /**
+     * JSON FileWriter method. Requires 2 parameters
+     * @param name String
+     * @param score Integer
+     */
     public static void write_json(String name, Integer score) {
         JSONObject obj = new JSONObject();
         obj.put("Pilot name", name);
@@ -27,6 +34,9 @@ public class json_saver {
 
     }
 
+    /**
+     * EXPERIMENTAL
+     */
     public static void writeJsonSimpleDemo(String filename) throws Exception {
         JSONObject sampleObject = new JSONObject();
         sampleObject.put("name", "Stackabuser");
