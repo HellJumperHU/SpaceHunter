@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import sample.Models.Model_Player_Stats;
 import sample.Vector2D;
 import javax.sound.midi.Soundbank;
 import java.io.IOException;
@@ -114,16 +115,21 @@ public class Controller_Play {
 
     //region VARIABLES
 
+    private static final Model_Player_Stats model_player_stats = new Model_Player_Stats();
 
     List<ImageView> missle = new ArrayList<>();
     List<ImageView> meteors = new ArrayList<>();
     List<ImageView> boosters= new ArrayList<>();
     List<ImageView> Stars_list = new ArrayList<>();
+
+    /*
     private Integer score=0;
     private int number_of_missles =5;
     private double boost_time=0.0;
     private int millisec,speed_boost_combo,missle_timer=0;
     private double boost =2.0;
+    */
+    private int millisec,missle_timer=0;
     private static boolean a=false,d=false;
     private static Random random = new Random();
 
@@ -227,7 +233,8 @@ public class Controller_Play {
 
             if (img.getLayoutY()>600) {
                 remove_imageview(img, meteors);
-                score+=50;
+                model_player_stats.score_increase(50);
+                //score+=50;
                 logger.info("Meteor left the field");
                 break;
             }
@@ -239,7 +246,8 @@ public class Controller_Play {
                     if (collision_detected(img.getLayoutX(),img.getLayoutY(),img_missle.getLayoutX(),img_missle.getLayoutY(),67,67)){
                         remove_imageview(img,meteors);
                         remove_imageview(img_missle,missle);
-                        score+=150;
+                        model_player_stats.score_increase(150);
+                        //score+=150;
                         logger.info("Meteor destroyed with missle");
                         //System.out.println("collision");
                     }
@@ -261,7 +269,7 @@ public class Controller_Play {
      * we call the launch_missle() method
      */
     public void missle_launch(){
-        if (number_of_missles>0 && missle_timer<1)
+        if (model_player_stats.getNumber_of_rockets()>0 && missle_timer<1)
             launch_missle();
     }
 
@@ -276,7 +284,8 @@ public class Controller_Play {
         imgv.setLayoutY(465);
         imgv.setLayoutX(space_ship.getLayoutX()+36);
         missle.add(imgv);
-        number_of_missles=decrease_item(number_of_missles);
+        model_player_stats.rocked_successfully_launched();
+        //number_of_missles=decrease_item(number_of_missles);
         missle_timer=50;
         //System.out.println("Generated Missle");
         logger.info("Missle launched");
@@ -339,17 +348,22 @@ public class Controller_Play {
      */
     void pick_up_booster(@NotNull ImageView imageView){
         if (imageView.getId()=="missle") {
-            number_of_missles += 2;
-            score+=10;
+            model_player_stats.rocket_picked_up();
+            //number_of_missles += 2;
+            model_player_stats.score_increase(10);
+            //score+=10;
             logger.info("Missle type booster picked up");
         }
 
         else {
-            speed_boost_combo++;
-            label_speed_boost_combo.setText(speed_boost_combo + "x");
-            boost += 2;
-            boost_time += 600;
-            score+=5;
+            model_player_stats.speed_boost_combo_up();
+            //speed_boost_combo++;
+            label_speed_boost_combo.setText(model_player_stats.getSpeed_boost_combo() + "x");
+            model_player_stats.speed_boost_picked_up(2.0,600);
+            //boost += 2;
+            //boost_time += 600;
+            model_player_stats.score_increase(5);
+            //score+=5;
             logger.info("Speed type booster picked up");
         }
         remove_imageview(imageView,boosters);
@@ -376,7 +390,7 @@ public class Controller_Play {
      *                   ans store it the imageView variable
      */
     private void move_boosters(@NotNull ImageView imageview){
-        imageview.setLayoutY(imageview.getLayoutY() + 2 * boost);
+        imageview.setLayoutY(imageview.getLayoutY() + 2 * model_player_stats.getBoost_value());
     }
 
     /**
@@ -421,13 +435,15 @@ public class Controller_Play {
         millisec++;
         if (millisec>100){
             millisec=0;
-            score+=1*(speed_boost_combo+1);
+            model_player_stats.score_increase(model_player_stats.getSpeed_boost_combo()+1);
+            //score+=1*(speed_boost_combo+1);
             random_event();
         }
-        if (boost_time>0)
-            boost_time-=1.5;
+        if (model_player_stats.getSpeed_boost_time()>0)
+            model_player_stats.decrease_speed_boost_time(1.5);
+            //boost_time-=1.5;
         else {
-            boost=2.0;
+            model_player_stats.setBoost_value(2.0);
         }
         if (missle_timer>0)
             missle_timer--;
@@ -564,7 +580,7 @@ public class Controller_Play {
         get_rid_of_lists_elememts(meteors);
         score_fx_label.setLayoutX(280);
         score_fx_label.setLayoutY(216);
-        score_fx_label.setText("YOUR SCORE : "+score);
+        score_fx_label.setText("YOUR SCORE : "+model_player_stats.getScore());
         score_fx_label.setPrefWidth(200);
         score_fx_label.setPrefHeight(32);
 
@@ -605,7 +621,7 @@ public class Controller_Play {
            try {
                submit.setDisable(true);
                //writeJsonSimpleDemo("score.json");
-               write_json(textField_name.getText(),score);
+               write_json(textField_name.getText(),model_player_stats.getScore());
                logger.info(textField_name.getText()+"'s score has been saved");
            }catch (Exception e){logger.error(e.getMessage());}
             label_success.setVisible(true);
@@ -634,7 +650,7 @@ public class Controller_Play {
      * Score updater
      */
     private void update_score(){
-        label_score.setText(""+score);
+        label_score.setText(""+model_player_stats.getScore());
     }
 
     /**
@@ -660,7 +676,7 @@ public class Controller_Play {
     public void set_play_Mose_stars(){
         for (int i=0;i<Stars_list.size();i++){
 
-            Stars_list.get(i).setLayoutY(Stars_list.get(i).getLayoutY()+1*boost);
+            Stars_list.get(i).setLayoutY(Stars_list.get(i).getLayoutY()+1*model_player_stats.getBoost_value());
             if (get_play_is_star_out_of_window(Stars_list.get(i).getLayoutY())){
                 Stars_list.get(i).setLayoutX(get_random_x_koordinate(3));
                 Stars_list.get(i).setLayoutY(0);
@@ -672,18 +688,20 @@ public class Controller_Play {
 
     /**
      * Refresh the remaining time of the speed booster
+     * If the boost id over we set the
      */
     private void booster_label(){
-        if (boost_time<1) {
+        if (model_player_stats.getSpeed_boost_time()<1) {
 
 
             label_speed_boost.setText("" + 0+"s");
             label_speed_boost_combo.setText("");
-            speed_boost_combo=0;
+            model_player_stats.setSpeed_boost_combo(0);
+            model_player_stats.setSpeed_boost_time(0);
         }
         else{
 
-            label_speed_boost.setText(""+(int)boost_time/100+"s");
+            label_speed_boost.setText(""+(int)model_player_stats.getSpeed_boost_time()/100+"s");
         }
     }
 
@@ -691,7 +709,7 @@ public class Controller_Play {
      * Missle Launching
      */
     private void missle_label(){
-        label_rockets_number.setText(""+number_of_missles);
+        label_rockets_number.setText(""+model_player_stats.getNumber_of_rockets());
     }
 
 
@@ -706,7 +724,8 @@ public class Controller_Play {
         @Override
         public void handle(long currentNanoTime) {
 
-            score++;
+            model_player_stats.score_increase(2);
+            //score++;
             set_play_Move_ship();
             set_play_Mose_stars();
             booster_label();

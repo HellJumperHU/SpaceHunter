@@ -11,6 +11,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static sample.score_saver.json_loader.load_json;
 
 
@@ -38,6 +41,8 @@ public class Controller_Highscore {
     @FXML
     Label label_3rd_score;
 
+    private static Logger logger = LoggerFactory.getLogger(Controller_Highscore.class);
+
     /**
      * Refreshing the highscore
      */
@@ -51,8 +56,9 @@ public class Controller_Highscore {
         if (!name_list.isEmpty()) {
             label_1st_name.setText(""+name_list.get(0));
             label_1st_score.setText(""+score_list.get(0));
-
+            logger.info("Score label successfully refreshed");
         }
+        else logger.info("There are no any stored score yet");
 
     }
 

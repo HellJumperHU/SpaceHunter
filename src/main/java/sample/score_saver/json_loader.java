@@ -28,7 +28,7 @@ public class json_loader {
             Long ink=(Long) jsonobject.get("Score");
             names.add((String)jsonobject.get("Pilot name"));
             String m =(String)jsonobject.get("Pilot name");
-            System.out.println(m+ink);
+            //System.out.println(m+ink);
         }
         catch (FileNotFoundException e){e.printStackTrace();}
         catch (IOException e){e.printStackTrace();}
