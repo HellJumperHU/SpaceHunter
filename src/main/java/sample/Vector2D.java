@@ -2,6 +2,9 @@ package sample;
 
 /**
  * EXPERIMENTAL CLASS
+ * Preparing to open world update
+ * This class given by Roland named user
+ * https://stackoverflow.com/questions/31856158/move-objects-on-screen-in-javafx
  */
 public class Vector2D {
     public double x;
