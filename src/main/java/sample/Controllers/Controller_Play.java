@@ -21,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 import sample.Models.Model_Player_Stats;
 import sample.Vector2D;
 import javax.sound.midi.Soundbank;
@@ -46,66 +45,97 @@ public class Controller_Play {
 
     //region FXML_ELEMENTS
 
+    // The whole Scene happen on this
     @FXML
     public Pane Pane_GrandParent;
+    // The BASE pane. Every other element built on it.
     @FXML
     public AnchorPane base_anchor;
+    // Parent pane
     @FXML
     public Pane Pane_Parent;
+    // Score label
     @FXML
     public Label label_score;
+    // For experimental. It showed the location of the mouse
     @FXML
     public Label label_get_mouse_location;
+    // For experimental. It showed the location of our ship
     @FXML
     public Label label_starship_location;
+    // Show the speed boost duration
     @FXML
     public Label label_speed_boost;
+    // Experimental start button
     @FXML
     public Button start_button;
+    // Background Star Image
     @FXML
     public ImageView star_1;
+    // Background Star Image
     @FXML
     public ImageView star_2;
+    // Background Star Image
     @FXML
     public ImageView star_3;
+    // Background Star Image
     @FXML
     public ImageView star_4;
+    // Background Star Image
     @FXML
     public ImageView star_5;
+    // Background Star Image
     @FXML
     public ImageView star_6;
+    // Background Star Image
     @FXML
     public ImageView star_7;
+    // Background Star Image
     @FXML
     public ImageView star_8;
+    // Background Star Image
     @FXML
     public ImageView star_9;
+    // Background Star Image
     @FXML
     public ImageView star_10;
+    // Background Star Image
     @FXML
     public ImageView star_11;
+    // Background Star Image
     @FXML
     public ImageView star_12;
+    // Background Star Image
     @FXML
     public ImageView star_13;
+    // Spaceship Image
     @FXML
     public ImageView space_ship;
+    // Show the speed boost combo multiplier
     @FXML
     public Label label_speed_boost_combo;
+    // Show the number of missles
     @FXML
     public Label label_rockets_number;
+    // Missle picture
     @FXML
     public ImageView icon_missle_image;
+    // Exit button
     @FXML
     public Button final_exit_button;
+    // Submit button
     @FXML
     public Button submit;
+    // Show the score
     @FXML
     public Label score_fx_label;
+    // Show if we successfully saved the score
     @FXML
     public Label label_success;
+    // Show if we failed to save the score
     @FXML
     public Label error;
+    // Endgame name input field
     @FXML
     public TextField textField_name;
 
@@ -145,6 +175,7 @@ public class Controller_Play {
      * @return simple boolean value true or false
      */
     public boolean get_play_is_star_out_of_window(double star){
+        // if the star out of field
         if (star<=0 || star>=600)
             return true;
         //if (star.getLayoutX()<=0 || star.getLayoutX()>=800)
@@ -158,6 +189,7 @@ public class Controller_Play {
      * @return the decreased number
      */
     public int decrease_item(int number){
+        // if the number we want to decrease is higher than 0
         if (number>0)
             return --number;
         else return 0;
@@ -220,17 +252,19 @@ public class Controller_Play {
      *  If it hit the ship, the game is over
      */
     private void move_meteor(){
+        // Go through all elements of meteors list
         for (int i =0;i<meteors.size();i++){
             ImageView img = meteors.get(i);
             img.setRotate(img.getRotate()+10);
             img.setLayoutY(img.getLayoutY()+3);
+            // if collision is present
             if (collision_detected(img.getLayoutX(),img.getLayoutY(),space_ship.getLayoutX(),space_ship.getLayoutY(),space_ship.getFitWidth()-20,space_ship.getFitHeight()-20)){
                 remove_imageview(img,meteors);
                 logger.info("Ship hit by a meteor");
                 score_scren();
                 break;
             }
-
+            // if meteor out of window
             if (img.getLayoutY()>600) {
                 remove_imageview(img, meteors);
                 model_player_stats.score_increase(50);
@@ -238,11 +272,13 @@ public class Controller_Play {
                 logger.info("Meteor left the field");
                 break;
             }
-
+            // if we have any missles left
             if (!missle.isEmpty()){
+                // Go though every elements of missle list
                 for (int j =0;j<missle.size();j++){
                     ImageView img_missle = missle.get(j);
                     //System.out.println(img.getFitWidth());
+                    // if collision is present
                     if (collision_detected(img.getLayoutX(),img.getLayoutY(),img_missle.getLayoutX(),img_missle.getLayoutY(),67,67)){
                         remove_imageview(img,meteors);
                         remove_imageview(img_missle,missle);
@@ -269,6 +305,7 @@ public class Controller_Play {
      * we call the launch_missle() method
      */
     public void missle_launch(){
+        // If we have any missles left AND the missle launch cooldown is 0
         if (model_player_stats.getNumber_of_rockets()>0 && missle_timer<1)
             launch_missle();
     }
@@ -298,9 +335,11 @@ public class Controller_Play {
      * If any of them is, we call the remove_imageview()
      */
     private void move_missle(){
+        // moving every LAUNCHED missles
         for (int i=0;i<missle.size();i++){
             ImageView imgv=missle.get(i);
             imgv.setLayoutY(imgv.getLayoutY()-8);
+            // If the missle out of field
             if (missle_out_of_field(imgv.getLayoutY())){
                 remove_imageview(imgv,missle);
             }
@@ -317,6 +356,7 @@ public class Controller_Play {
      * @return if the missle 'above' our screen (horizontal value below 0) the mwthos return true
      */
     public boolean missle_out_of_field(double imgvY){
+        // If the missle Y coord below 0
         if (imgvY<0)
             return true;
         else return false;
@@ -346,7 +386,8 @@ public class Controller_Play {
      * both from screen and the boosters list
      * @param imageView imageview of the picked up booster
      */
-    void pick_up_booster(@NotNull ImageView imageView){
+    void pick_up_booster( ImageView imageView){
+        // If the picked up booster is a missle type
         if (imageView.getId()=="missle") {
             model_player_stats.rocket_picked_up();
             //number_of_missles += 2;
@@ -377,7 +418,7 @@ public class Controller_Play {
      * @param imageviev the parameter is Imageview format
      * @param img we store the Imageview in this variable
      */
-    private void remove_imageview (ImageView imageviev, @NotNull List<ImageView> img){
+    private void remove_imageview (ImageView imageviev,  List<ImageView> img){
         Pane_GrandParent.getChildren().remove(imageviev);
         img.remove(imageviev);
     }
@@ -389,7 +430,7 @@ public class Controller_Play {
      * @param imageview  the parameter is Imageview format
      *                   ans store it the imageView variable
      */
-    private void move_boosters(@NotNull ImageView imageview){
+    private void move_boosters( ImageView imageview){
         imageview.setLayoutY(imageview.getLayoutY() + 2 * model_player_stats.getBoost_value());
     }
 
@@ -401,14 +442,15 @@ public class Controller_Play {
      * if the imageview is "out of window" we call the remove_imageview()
      */
     private void boosters() {
-
+        // Go trough every booster elements in the boosters list
         for (int i = 0; i < boosters.size(); i++) {
             ImageView imageview = boosters.get(i);
             move_boosters(imageview);
-
+            // If collision is present
             if (collision_detected(imageview.getLayoutX(),imageview.getLayoutY(),space_ship.getLayoutX(),space_ship.getLayoutY(),space_ship.getFitWidth(),space_ship.getFitHeight())) {
                 pick_up_booster(imageview);
             }
+            // if booster is out of window
             if (imageview.getLayoutY() > 600) {
                 remove_imageview(imageview,boosters);
                 //System.out.println("removed boost");
@@ -433,18 +475,22 @@ public class Controller_Play {
      */
     public void do_booster_timers(){
         millisec++;
+        // every sec we spawn random event and increase the the score
         if (millisec>100){
             millisec=0;
             model_player_stats.score_increase(model_player_stats.getSpeed_boost_combo()+1);
             //score+=1*(speed_boost_combo+1);
             random_event();
         }
+        // if we have speed boost (speed boost time bigger than 0) we decrease the speed boost time left
         if (model_player_stats.getSpeed_boost_time()>0)
             model_player_stats.decrease_speed_boost_time(1.5);
             //boost_time-=1.5;
+        // if speed boost over, we set the boost value back to base 2.0
         else {
             model_player_stats.setBoost_value(2.0);
         }
+        // if the missle launching is o cooldown, we decrease it
         if (missle_timer>0)
             missle_timer--;
 
@@ -463,7 +509,9 @@ public class Controller_Play {
      */
     private void random_event(){
         int x = random.nextInt(100);
+        // if the random number below 80
         if (x<80){
+            // if it below 0 and 15 we spawn a speed boost
             if (x<15) {
                 ImageView imageView = new ImageView(new Image("images/speed_boost_transparent.png"));
                 imageView.relocate(get_random_x_koordinate(3), 0);
@@ -472,6 +520,7 @@ public class Controller_Play {
                 boosters.add(imageView);
                 logger.info("Generated Speed type booster");
             }
+            // if it between 16 and 30 we spawn a rocket boost
             else if (x<30){
                 ImageView imageView = new ImageView(new Image("images/boost_rocket_transparent.png"));
                 imageView.relocate(get_random_x_koordinate(3), 0);
@@ -480,6 +529,7 @@ public class Controller_Play {
                 boosters.add(imageView);
                 logger.info("Generated Missle type booster");
             }
+            // if it between 31 and 79 we spawn a meteor
             else {
                 spawn_meteor();
                 logger.info("Generated a Meteor");
@@ -494,6 +544,7 @@ public class Controller_Play {
      * @return a random Int number
      */
     public int get_random_y_koordinate(int b){
+        // define how to generate the Y coord
         switch (b){
             case 0: return random.nextInt(600);  // up and (left or right)
             case 1: return random.nextInt(600)+200; // down and (left or right)
@@ -510,6 +561,7 @@ public class Controller_Play {
      * @return a random Int number
      */
     public int get_random_x_koordinate(int b){
+        // define how to generate the X coord
         switch (b){
             case 0: return random.nextInt(500);  //left and (up or down)
             case 1: return random.nextInt(500)+100; // right  and (up or down)
@@ -612,7 +664,8 @@ public class Controller_Play {
      * Submit Score button action method
      */
     public void press_submit(){
-        if (textField_name.getText().length()<1 || textField_name.getText().length()>13){
+        // checking the text length must between 1 and 13
+        if (textField_name.getText().length()<4 || textField_name.getText().length()>13){
             error.setText("Between 4 and 13 characters");
             error.setVisible(true);
             logger.error("Invalid Pilot Name on end game screen");
@@ -635,8 +688,10 @@ public class Controller_Play {
      * Empty the actual list
      * @param img the list name here
      */
-    private void get_rid_of_lists_elememts(@NotNull List<ImageView> img){
+    private void get_rid_of_lists_elememts( List<ImageView> img){
+        // if the img named List parameter not empty
         if (!img.isEmpty())
+            // we remove every elements from that list
             while (!img.isEmpty())
                 img.remove(0);
     }
@@ -659,13 +714,16 @@ public class Controller_Play {
      */
     public void set_play_Move_ship(){
         int velocity_x=0;
+        // if 'left' true
         if (a) velocity_x=-4;
+        // if 'right' true
         if (d) velocity_x=4;
         //if (w) velocity_y=1;
         //if (s) velocity_y=-1;
+        // can we go left
         if (a && space_ship.getLayoutX()>0)
             space_ship.setLayoutX(space_ship.getLayoutX()+velocity_x);
-
+        // can we go right
         if (d && space_ship.getLayoutX()<712)
             space_ship.setLayoutX(space_ship.getLayoutX()+velocity_x);
     }
@@ -674,9 +732,11 @@ public class Controller_Play {
      * Moving the stars in the background
      */
     public void set_play_Mose_stars(){
+        // Go thought every background stars in the Stars list
         for (int i=0;i<Stars_list.size();i++){
 
             Stars_list.get(i).setLayoutY(Stars_list.get(i).getLayoutY()+1*model_player_stats.getBoost_value());
+            // if the star out of window
             if (get_play_is_star_out_of_window(Stars_list.get(i).getLayoutY())){
                 Stars_list.get(i).setLayoutX(get_random_x_koordinate(3));
                 Stars_list.get(i).setLayoutY(0);
@@ -691,6 +751,7 @@ public class Controller_Play {
      * If the boost id over we set the
      */
     private void booster_label(){
+        // if the speed boost time is over
         if (model_player_stats.getSpeed_boost_time()<1) {
 
 

@@ -11,7 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +68,7 @@ public class Controller_Highscore {
      * @param event  we get the pressed mouse button
      * @throws IOException IOException
      */
-    public void get_highscore_main_same_window(@NotNull ActionEvent event) throws IOException{
+    public void get_highscore_main_same_window( ActionEvent event) throws IOException{
         Button btn = (Button)event.getSource();
         Stage stage = (Stage)btn.getScene().getWindow();
         Parent root =FXMLLoader.load(getClass().getResource("/sample/main.fxml"));
