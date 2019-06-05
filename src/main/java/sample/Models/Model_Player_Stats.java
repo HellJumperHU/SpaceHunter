@@ -35,7 +35,7 @@ public class Model_Player_Stats {
         this.score = score;
     }
 
-    public void setSpeed_boost_time(int speed_boost_time) {
+    public void setSpeed_boost_time(double speed_boost_time) {
         this.speed_boost_time = speed_boost_time;
     }
 

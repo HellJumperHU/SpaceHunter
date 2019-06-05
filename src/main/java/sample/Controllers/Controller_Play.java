@@ -678,10 +678,18 @@ public class Controller_Play {
                logger.info(textField_name.getText()+"'s score has been saved");
            }catch (Exception e){logger.error(e.getMessage());}
             label_success.setVisible(true);
+           set_base_value();
        }
+    }
 
-
-
+    private void set_base_value(){
+        model_player_stats.setScore(0);
+        model_player_stats.setSpeed_boost_time(0.0);
+        model_player_stats.setSpeed_boost_combo(0);
+        model_player_stats.setNumber_of_rockets(5);
+        missle_timer=0;
+        a = false;
+        d = false;
     }
 
     /**
